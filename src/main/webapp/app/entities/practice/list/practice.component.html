@@ -1,0 +1,145 @@
+<div>
+  <h2 id="page-heading" data-cy="PracticeHeading">
+    <span jhiTranslate="jhipsterSampleApplication1App.practice.home.title">Practices</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="jhipsterSampleApplication1App.practice.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-practice"
+        [routerLink]="['/practice/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="jhipsterSampleApplication1App.practice.home.createLabel"> Create a new Practice </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="practices?.length === 0">
+    <span jhiTranslate="jhipsterSampleApplication1App.practice.home.notFound">No practices found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="practices && practices.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="title">
+            <span jhiTranslate="jhipsterSampleApplication1App.practice.title">Title</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="photoUrl">
+            <span jhiTranslate="jhipsterSampleApplication1App.practice.photoUrl">Photo Url</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="photo">
+            <span jhiTranslate="jhipsterSampleApplication1App.practice.photo">Photo</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="voiceUrl">
+            <span jhiTranslate="jhipsterSampleApplication1App.practice.voiceUrl">Voice Url</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="voiceFile">
+            <span jhiTranslate="jhipsterSampleApplication1App.practice.voiceFile">Voice File</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="masterDescription">
+            <span jhiTranslate="jhipsterSampleApplication1App.practice.masterDescription">Master Description</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="masterAdvice">
+            <span jhiTranslate="jhipsterSampleApplication1App.practice.masterAdvice">Master Advice</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="briefMasterAdvice">
+            <span jhiTranslate="jhipsterSampleApplication1App.practice.briefMasterAdvice">Brief Master Advice</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="accountType">
+            <span jhiTranslate="jhipsterSampleApplication1App.practice.accountType">Account Type</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let practice of practices; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/practice', practice.id, 'view']">{{ practice.id }}</a>
+          </td>
+          <td>{{ practice.title }}</td>
+          <td>{{ practice.photoUrl }}</td>
+          <td>
+            <a *ngIf="practice.photo" (click)="openFile(practice.photo, practice.photoContentType)" jhiTranslate="entity.action.open"
+              >open</a
+            >
+            <span *ngIf="practice.photo">{{ practice.photoContentType }}, {{ byteSize(practice.photo) }}</span>
+          </td>
+          <td>{{ practice.voiceUrl }}</td>
+          <td>
+            <a
+              *ngIf="practice.voiceFile"
+              (click)="openFile(practice.voiceFile, practice.voiceFileContentType)"
+              jhiTranslate="entity.action.open"
+              >open</a
+            >
+            <span *ngIf="practice.voiceFile">{{ practice.voiceFileContentType }}, {{ byteSize(practice.voiceFile) }}</span>
+          </td>
+          <td>{{ practice.masterDescription }}</td>
+          <td>{{ practice.masterAdvice }}</td>
+          <td>{{ practice.briefMasterAdvice }}</td>
+          <td jhiTranslate="{{ 'jhipsterSampleApplication1App.AccountType.' + practice.accountType }}">{{ practice.accountType }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/practice', practice.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/practice', practice.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(practice)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="practices && practices.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="action">
+      <h2 data-cy="actionDetailsHeading"><span jhiTranslate="jhipsterSampleApplication1App.action.detail.title">Action</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ action.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.action.title">Title</span></dt>
+        <dd>
+          <span>{{ action.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.action.photoUrl">Photo Url</span></dt>
+        <dd>
+          <span>{{ action.photoUrl }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.action.photo">Photo</span></dt>
+        <dd>
+          <div *ngIf="action.photo">
+            <a (click)="openFile(action.photo, action.photoContentType)" jhiTranslate="entity.action.open">open</a>
+            {{ action.photoContentType }}, {{ byteSize(action.photo) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.action.code">Code</span></dt>
+        <dd>
+          <span>{{ action.code }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.action.video">Video</span></dt>
+        <dd>
+          <div *ngIf="action.video">
+            <a (click)="openFile(action.video, action.videoContentType)" jhiTranslate="entity.action.open">open</a>
+            {{ action.videoContentType }}, {{ byteSize(action.video) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.action.videoUrl">Video Url</span></dt>
+        <dd>
+          <span>{{ action.videoUrl }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.action.masterDescription">Master Description</span></dt>
+        <dd>
+          <span>{{ action.masterDescription }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.action.accountType">Account Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'jhipsterSampleApplication1App.AccountType.' + action.accountType }}">{{ action.accountType }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/action', action.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="category">
+      <h2 data-cy="categoryDetailsHeading"><span jhiTranslate="jhipsterSampleApplication1App.category.detail.title">Category</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ category.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.category.title">Title</span></dt>
+        <dd>
+          <span>{{ category.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.category.photoUrl">Photo Url</span></dt>
+        <dd>
+          <span>{{ category.photoUrl }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.category.photo">Photo</span></dt>
+        <dd>
+          <div *ngIf="category.photo">
+            <a (click)="openFile(category.photo, category.photoContentType)" jhiTranslate="entity.action.open">open</a>
+            {{ category.photoContentType }}, {{ byteSize(category.photo) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.category.voiceUrl">Voice Url</span></dt>
+        <dd>
+          <span>{{ category.voiceUrl }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.category.voiceFile">Voice File</span></dt>
+        <dd>
+          <div *ngIf="category.voiceFile">
+            <a (click)="openFile(category.voiceFile, category.voiceFileContentType)" jhiTranslate="entity.action.open">open</a>
+            {{ category.voiceFileContentType }}, {{ byteSize(category.voiceFile) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.category.description">Description</span></dt>
+        <dd>
+          <span>{{ category.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.category.advice">Advice</span></dt>
+        <dd>
+          <span>{{ category.advice }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.category.accountType">Account Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'jhipsterSampleApplication1App.AccountType.' + category.accountType }}">{{ category.accountType }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.category.action">Action</span></dt>
+        <dd>
+          <span *ngFor="let action of category.actions; let last = last">
+            <a [routerLink]="['/action', action?.id, 'view']">{{ action.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/category', category.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="subCategory">
+      <h2 data-cy="subCategoryDetailsHeading">
+        <span jhiTranslate="jhipsterSampleApplication1App.subCategory.detail.title">Sub Category</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ subCategory.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.subCategory.title">Title</span></dt>
+        <dd>
+          <span>{{ subCategory.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.subCategory.photoUrl">Photo Url</span></dt>
+        <dd>
+          <span>{{ subCategory.photoUrl }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.subCategory.photo">Photo</span></dt>
+        <dd>
+          <div *ngIf="subCategory.photo">
+            <a (click)="openFile(subCategory.photo, subCategory.photoContentType)" jhiTranslate="entity.action.open">open</a>
+            {{ subCategory.photoContentType }}, {{ byteSize(subCategory.photo) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.subCategory.voiceUrl">Voice Url</span></dt>
+        <dd>
+          <span>{{ subCategory.voiceUrl }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.subCategory.voiceFile">Voice File</span></dt>
+        <dd>
+          <div *ngIf="subCategory.voiceFile">
+            <a (click)="openFile(subCategory.voiceFile, subCategory.voiceFileContentType)" jhiTranslate="entity.action.open">open</a>
+            {{ subCategory.voiceFileContentType }}, {{ byteSize(subCategory.voiceFile) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.subCategory.masterDescription">Master Description</span></dt>
+        <dd>
+          <span>{{ subCategory.masterDescription }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.subCategory.masterAdvice">Master Advice</span></dt>
+        <dd>
+          <span>{{ subCategory.masterAdvice }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.subCategory.accountType">Account Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'jhipsterSampleApplication1App.AccountType.' + subCategory.accountType }}">{{
+            subCategory.accountType
+          }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.subCategory.action">Action</span></dt>
+        <dd>
+          <span *ngFor="let action of subCategory.actions; let last = last">
+            <a [routerLink]="['/action', action?.id, 'view']">{{ action.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.subCategory.category">Category</span></dt>
+        <dd>
+          <div *ngIf="subCategory.category">
+            <a [routerLink]="['/category', subCategory.category?.id, 'view']">{{ subCategory.category?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/sub-category', subCategory.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

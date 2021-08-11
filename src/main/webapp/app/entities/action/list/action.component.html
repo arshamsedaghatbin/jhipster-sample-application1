@@ -1,0 +1,123 @@
+<div>
+  <h2 id="page-heading" data-cy="ActionHeading">
+    <span jhiTranslate="jhipsterSampleApplication1App.action.home.title">Actions</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="jhipsterSampleApplication1App.action.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-action"
+        [routerLink]="['/action/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="jhipsterSampleApplication1App.action.home.createLabel"> Create a new Action </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="actions?.length === 0">
+    <span jhiTranslate="jhipsterSampleApplication1App.action.home.notFound">No actions found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="actions && actions.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="title">
+            <span jhiTranslate="jhipsterSampleApplication1App.action.title">Title</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="photoUrl">
+            <span jhiTranslate="jhipsterSampleApplication1App.action.photoUrl">Photo Url</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="photo">
+            <span jhiTranslate="jhipsterSampleApplication1App.action.photo">Photo</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="code">
+            <span jhiTranslate="jhipsterSampleApplication1App.action.code">Code</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="video">
+            <span jhiTranslate="jhipsterSampleApplication1App.action.video">Video</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="videoUrl">
+            <span jhiTranslate="jhipsterSampleApplication1App.action.videoUrl">Video Url</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="masterDescription">
+            <span jhiTranslate="jhipsterSampleApplication1App.action.masterDescription">Master Description</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="accountType">
+            <span jhiTranslate="jhipsterSampleApplication1App.action.accountType">Account Type</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let action of actions; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/action', action.id, 'view']">{{ action.id }}</a>
+          </td>
+          <td>{{ action.title }}</td>
+          <td>{{ action.photoUrl }}</td>
+          <td>
+            <a *ngIf="action.photo" (click)="openFile(action.photo, action.photoContentType)" jhiTranslate="entity.action.open">open</a>
+            <span *ngIf="action.photo">{{ action.photoContentType }}, {{ byteSize(action.photo) }}</span>
+          </td>
+          <td>{{ action.code }}</td>
+          <td>
+            <a *ngIf="action.video" (click)="openFile(action.video, action.videoContentType)" jhiTranslate="entity.action.open">open</a>
+            <span *ngIf="action.video">{{ action.videoContentType }}, {{ byteSize(action.video) }}</span>
+          </td>
+          <td>{{ action.videoUrl }}</td>
+          <td>{{ action.masterDescription }}</td>
+          <td jhiTranslate="{{ 'jhipsterSampleApplication1App.AccountType.' + action.accountType }}">{{ action.accountType }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/action', action.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/action', action.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(action)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="actions && actions.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

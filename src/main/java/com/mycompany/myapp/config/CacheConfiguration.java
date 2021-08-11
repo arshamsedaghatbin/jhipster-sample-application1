@@ -48,6 +48,21 @@ public class CacheConfiguration {
             createCache(cm, com.mycompany.myapp.domain.User.class.getName());
             createCache(cm, com.mycompany.myapp.domain.Authority.class.getName());
             createCache(cm, com.mycompany.myapp.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.mycompany.myapp.domain.Category.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Category.class.getName() + ".subcategories");
+            createCache(cm, com.mycompany.myapp.domain.Category.class.getName() + ".actions");
+            createCache(cm, com.mycompany.myapp.domain.SubCategory.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.SubCategory.class.getName() + ".actions");
+            createCache(cm, com.mycompany.myapp.domain.Action.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Action.class.getName() + ".bookMarks");
+            createCache(cm, com.mycompany.myapp.domain.Action.class.getName() + ".categories");
+            createCache(cm, com.mycompany.myapp.domain.Action.class.getName() + ".subCategories");
+            createCache(cm, com.mycompany.myapp.domain.Action.class.getName() + ".sessions");
+            createCache(cm, com.mycompany.myapp.domain.BookMarkAction.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Practice.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Practice.class.getName() + ".sessions");
+            createCache(cm, com.mycompany.myapp.domain.PracticeSession.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.PracticeSession.class.getName() + ".actions");
             // jhipster-needle-ehcache-add-entry
         };
     }

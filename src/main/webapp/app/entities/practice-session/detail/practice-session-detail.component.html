@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="practiceSession">
+      <h2 data-cy="practiceSessionDetailsHeading">
+        <span jhiTranslate="jhipsterSampleApplication1App.practiceSession.detail.title">Practice Session</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ practiceSession.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.practiceSession.tiltle">Tiltle</span></dt>
+        <dd>
+          <span>{{ practiceSession.tiltle }}</span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.practiceSession.action">Action</span></dt>
+        <dd>
+          <span *ngFor="let action of practiceSession.actions; let last = last">
+            <a [routerLink]="['/action', action?.id, 'view']">{{ action.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="jhipsterSampleApplication1App.practiceSession.practice">Practice</span></dt>
+        <dd>
+          <div *ngIf="practiceSession.practice">
+            <a [routerLink]="['/practice', practiceSession.practice?.id, 'view']">{{ practiceSession.practice?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/practice-session', practiceSession.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
